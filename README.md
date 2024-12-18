@@ -31,7 +31,7 @@ The block includes customizable options for plan titles, pricing, features, and 
 
 ### 2. Frontend View
 
-![Frontend View](https://your-image-link.com)
+![Frontend View](https://raw.githubusercontent.com/ndegwamoche/dynamic-pricing-block/main/dynamic-pricing-block-frontview.png)
 
 ----------
 
