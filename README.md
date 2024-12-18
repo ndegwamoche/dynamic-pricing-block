@@ -27,7 +27,7 @@ The block includes customizable options for plan titles, pricing, features, and 
 
 ### 1. Editor View
 
-![Editor View](https://raw.githubusercontent.com/ndegwamoche/youtube-video-checker/main/screenshot.png)
+![Editor View](https://raw.githubusercontent.com/ndegwamoche/dynamic-pricing-block/main/dynamic-pricing-block-editor.png)
 
 ### 2. Frontend View
 
