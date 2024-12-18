@@ -11,5 +11,9 @@
   "description": "",
   "devDependencies": {
     "@wordpress/scripts": "^30.7.0"
+  },
+  "dependencies": {
+    "@wordpress/icons": "^10.14.0",
+    "react-color": "^2.19.3"
   }
 }

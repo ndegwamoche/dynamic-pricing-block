@@ -3,8 +3,8 @@
     "apiVersion": 2,
     "name": "dynamic-pricing-block/price-plans",
     "title": "Dynamic Pricing Block",
-    "category": "formatting",
-    "icon": "money",
+    "category": "widgets",
+    "icon": "table-col-after",
     "description": "A custom pricing block with different plans that can dynamically add features.",
     "editorScript": "file:../build/index.js",
     "style": [
@@ -13,8 +13,8 @@
     ],
     "supports": {
         "align": [
-            "wide",
-            "full"
+            "full",
+            "wide"
         ]
     }
 }

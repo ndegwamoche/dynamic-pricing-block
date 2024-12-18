@@ -2,6 +2,36 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@wordpress/icons/build-module/library/keyboard-return.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@wordpress/icons/build-module/library/keyboard-return.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/primitives */ "@wordpress/primitives");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+/**
+ * WordPress dependencies
+ */
+
+
+const keyboardReturn = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_0__.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_0__.Path, {
+    d: "m6.734 16.106 2.176-2.38-1.093-1.028-3.846 4.158 3.846 4.158 1.093-1.028-2.176-2.38h2.811c1.125 0 2.25.03 3.374 0 1.428-.001 3.362-.25 4.963-1.277 1.66-1.065 2.868-2.906 2.868-5.859 0-2.479-1.327-4.896-3.65-5.93-1.82-.813-3.044-.8-4.806-.788l-.567.002v1.5c.184 0 .368 0 .553-.002 1.82-.007 2.704-.014 4.21.657 1.854.827 2.76 2.657 2.76 4.561 0 2.472-.973 3.824-2.178 4.596-1.258.807-2.864 1.04-4.163 1.04h-.02c-1.115.03-2.229 0-3.344 0H6.734Z"
+  })
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (keyboardReturn);
+//# sourceMappingURL=keyboard-return.js.map
+
+/***/ }),
+
 /***/ "./blocks/src/editor.js":
 /*!******************************!*\
   !*** ./blocks/src/editor.js ***!
@@ -16,12 +46,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/keyboard-return.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -37,127 +67,200 @@ const EditComponent = ({
     plans
   } = attributes;
 
-  // Add a new plan dynamically
-  const addNewPlan = () => {
-    const newPlan = {
-      title: 'New Plan',
-      price: '$0',
-      features: ['Feature 1', 'Feature 2'],
-      buttonLabel: 'Sign up'
-    };
-    setAttributes({
-      plans: [...plans, newPlan]
+  // URL Popover visibility and URLs state
+  const [popoverVisible, setPopoverVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
+  const [buttonURLs, setButtonURLs] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
+  const [openInNewTab, setOpenInNewTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({}); // To store the open-in-new-tab setting for each plan
+  const popoverRefs = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useRef)({});
+
+  // Initialize button URLs and open-in-new-tab state from attributes
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    const initialButtonURLs = {};
+    const initialOpenInNewTab = {};
+    plans.forEach((_, index) => {
+      initialButtonURLs[index] = attributes[`buttonURL${index + 1}`] || '';
+      initialOpenInNewTab[index] = attributes[`openInNewTab${index + 1}`] || false; // Set initial state for new tab
     });
+    setButtonURLs(initialButtonURLs);
+    setOpenInNewTab(initialOpenInNewTab);
+  }, [attributes]);
+
+  // Handle URL change
+  const handleURLChange = (index, value) => {
+    setButtonURLs(prev => ({
+      ...prev,
+      [index]: value
+    }));
   };
 
-  // Update a specific plan attribute
-  const updatePlan = (index, key, value) => {
-    const updatedPlans = [...plans];
-    updatedPlans[index][key] = value;
-    setAttributes({
-      plans: updatedPlans
-    });
+  // Handle Open in New Tab change
+  const handleOpenInNewTabChange = (index, value) => {
+    setOpenInNewTab(prev => ({
+      ...prev,
+      [index]: value
+    }));
   };
 
-  // Update a specific feature in a plan
-  const updateFeature = (index, featureIndex, value) => {
-    const updatedPlans = [...plans];
-    updatedPlans[index].features[featureIndex] = value;
+  // Handle URL submit (save)
+  const handleURLSubmit = index => {
     setAttributes({
-      plans: updatedPlans
+      [`buttonURL${index + 1}`]: buttonURLs[index],
+      [`openInNewTab${index + 1}`]: openInNewTab[index]
     });
+    setPopoverVisible(prev => ({
+      ...prev,
+      [index]: false
+    }));
   };
 
-  // Add a new feature to a plan
-  const addFeature = index => {
-    const updatedPlans = [...plans];
-    updatedPlans[index].features.push('New Feature');
-    setAttributes({
-      plans: updatedPlans
-    });
+  // Toggle Popover visibility
+  const handleButtonMouseOver = index => {
+    setPopoverVisible(prev => ({
+      ...prev,
+      [index]: true
+    }));
   };
 
-  // Remove a specific feature
-  const removeFeature = (index, featureIndex) => {
-    const updatedPlans = [...plans];
-    updatedPlans[index].features.splice(featureIndex, 1);
-    setAttributes({
-      plans: updatedPlans
-    });
+  // Redirect to URL on button click
+  const handleButtonClick = index => {
+    const url = buttonURLs[index];
+    if (url) {
+      const target = openInNewTab[index] ? '_blank' : '_self'; // Use target based on user setting
+      window.open(url, target); // Open the URL with the selected target
+    }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add New Plan', 'dynamic-pricing-block'),
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: "Add New Plan",
         initialOpen: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelRow, {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelRow, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
             isPrimary: true,
-            onClick: addNewPlan,
-            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Another Plan', 'dynamic-pricing-block')
+            onClick: () => setAttributes({
+              plans: [...plans, {
+                title: 'New Plan',
+                price: '$0',
+                features: ['Feature 1'],
+                buttonLabel: 'Sign Up'
+              }]
+            }),
+            children: "Add Another Plan"
           })
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       ...blockProps,
       className: "row row-cols-1 row-cols-md-3 mb-3 text-center",
-      children: plans.map((plan, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      children: plans.map((plan, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "col",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "card mb-4 rounded-3 shadow-sm",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "card-header py-3",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
               tagName: "h4",
               value: plan.title,
-              placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Plan Title', 'dynamic-pricing-block'),
-              onChange: value => updatePlan(index, 'title', value)
+              placeholder: "Plan Title",
+              onChange: value => setAttributes({
+                plans: plans.map((p, i) => i === index ? {
+                  ...p,
+                  title: value
+                } : p)
+              })
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "card-body",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h1", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h1", {
               className: "card-title pricing-card-title",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
                 tagName: "span",
                 value: plan.price,
-                placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Price', 'dynamic-pricing-block'),
-                onChange: value => updatePlan(index, 'price', value)
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("small", {
+                placeholder: "Price",
+                onChange: value => setAttributes({
+                  plans: plans.map((p, i) => i === index ? {
+                    ...p,
+                    price: value
+                  } : p)
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
                 className: "text-muted fw-light",
                 children: "/mo"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
               className: "list-unstyled mt-3 mb-4",
-              children: plan.features.map((feature, featureIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
-                style: {
-                  display: 'flex',
-                  alignItems: 'center'
-                },
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+              children: plan.features.map((feature, featureIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
                   value: feature,
-                  placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Feature', 'dynamic-pricing-block'),
-                  onChange: value => updateFeature(index, featureIndex, value)
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-                  isSmall: true,
-                  variant: "secondary",
-                  onClick: () => removeFeature(index, featureIndex),
-                  children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Remove', 'dynamic-pricing-block')
-                })]
+                  placeholder: "Feature",
+                  onChange: value => setAttributes({
+                    plans: plans.map((p, i) => i === index ? {
+                      ...p,
+                      features: p.features.map((f, fi) => fi === featureIndex ? value : f)
+                    } : p)
+                  })
+                })
               }, featureIndex))
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
               variant: "link",
-              onClick: () => addFeature(index),
-              children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Feature', 'dynamic-pricing-block')
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+              onClick: () => setAttributes({
+                plans: plans.map((p, i) => i === index ? {
+                  ...p,
+                  features: [...p.features, 'New Feature']
+                } : p)
+              }),
+              children: "Add Feature"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
               variant: "primary",
-              className: "w-100 btn btn-lg"
-              //onClick={() => alert(__('Button Clicked!', 'dynamic-pricing-block'))}
+              className: "w-100 btn btn-lg",
+              onMouseOver: () => handleButtonMouseOver(index)
+              //onClick={() => handleButtonClick(index)} // Button click handler
               ,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
                 tagName: "span",
                 value: plan.buttonLabel,
-                placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Button Text', 'dynamic-pricing-block'),
-                onChange: value => updatePlan(index, 'buttonLabel', value)
+                placeholder: "Button Text",
+                onChange: value => setAttributes({
+                  plans: plans.map((p, i) => i === index ? {
+                    ...p,
+                    buttonLabel: value
+                  } : p)
+                })
+              })
+            }), popoverVisible[index] && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.URLPopover, {
+              ref: el => popoverRefs.current[index] = el,
+              onClose: () => setPopoverVisible(prev => ({
+                ...prev,
+                [index]: false
+              })),
+              style: {
+                minWidth: '400px'
+              } // Increase width of the popover container
+              ,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelRow, {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+                    label: "URL",
+                    placeholder: "Link inside",
+                    value: buttonURLs[index] || "",
+                    onChange: value => handleURLChange(index, value),
+                    style: {
+                      width: '100%',
+                      minWidth: '340px'
+                    } // Ensures the input takes up all available space
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelRow, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.CheckboxControl, {
+                    label: "Open in new tab",
+                    checked: openInNewTab[index] || false,
+                    onChange: value => handleOpenInNewTabChange(index, value)
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+                    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_4__["default"],
+                    label: "Save URL",
+                    isPrimary: true,
+                    onClick: () => handleURLSubmit(index)
+                  })]
+                })]
               })
             })]
           })]
@@ -191,18 +294,21 @@ __webpack_require__.r(__webpack_exports__);
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('dynamic-pricing-block/price-plans', {
   title: 'Dynamic Pricing Block',
   description: 'A custom pricing block with different plans that can dynamically add features.',
+  icon: 'table-col-after',
   category: 'widgets',
-  icon: 'money',
   edit: _editor__WEBPACK_IMPORTED_MODULE_1__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_2__["default"],
   attributes: {
     plans: {
       type: 'array',
       default: [{
-        title: 'Free',
+        title: 'New Plan',
         price: '$0',
-        features: ['10 users included', '2 GB of storage', 'Email support', 'Help center access'],
-        buttonLabel: 'Sign up for free'
+        features: ['Feature 1', 'Feature 2'],
+        buttonLabel: 'Sign up for free',
+        buttonURL: '',
+        buttonOpenInNewTab: false,
+        buttonNoFollow: false
       }]
     }
   }
@@ -235,43 +341,62 @@ const SaveComponent = ({
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     className: "row row-cols-1 row-cols-md-3 mb-3 text-center",
-    children: plans.map((plan, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: "col",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "card mb-4 rounded-3 shadow-sm",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "card-header py-3",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-            className: "my-0 fw-normal",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
-              value: plan.title
+    children: plans.map((plan, index) => {
+      // Get the URL for this plan's button from the saved attributes
+      const buttonURL = attributes[`buttonURL${index + 1}`]; // Ensure the URL is being passed for each plan
+      // Get the open-in-new-tab setting from the saved attributes
+      const openInNewTab = attributes[`openInNewTab${index + 1}`]; // Get open-in-new-tab setting for each plan
+
+      // Set target based on openInNewTab
+      const target = openInNewTab ? '_blank' : '_self';
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "col",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "card mb-4 rounded-3 shadow-sm",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "card-header py-3",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+              className: "my-0 fw-normal",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+                value: plan.title
+              })
             })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          className: "card-body",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h1", {
-            className: "card-title pricing-card-title",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
-              value: plan.price
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("small", {
-              className: "text-muted fw-light",
-              children: "/mo"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "card-body",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h1", {
+              className: "card-title pricing-card-title",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+                value: plan.price
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("small", {
+                className: "text-muted fw-light",
+                children: "/mo"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
+              className: "list-unstyled mt-3 mb-4",
+              children: plan.features.map((feature, featureIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+                children: feature
+              }, featureIndex))
+            }), buttonURL ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: buttonURL // Ensure the URL is being used in the anchor tag
+              ,
+              className: "w-100 btn btn-lg btn-outline-primary",
+              target: target // Dynamically set target
+              ,
+              rel: "noopener noreferrer",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+                value: plan.buttonLabel
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              type: "button",
+              className: "w-100 btn btn-lg btn-outline-primary",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+                value: plan.buttonLabel
+              })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
-            className: "list-unstyled mt-3 mb-4",
-            children: plan.features.map((feature, featureIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-              children: feature
-            }, featureIndex))
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-            type: "button",
-            className: "w-100 btn btn-lg btn-outline-primary",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
-              value: plan.buttonLabel
-            })
           })]
-        })]
-      })
-    }, index))
+        })
+      }, index);
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SaveComponent);
@@ -340,13 +465,13 @@ module.exports = window["wp"]["element"];
 
 /***/ }),
 
-/***/ "@wordpress/i18n":
-/*!******************************!*\
-  !*** external ["wp","i18n"] ***!
-  \******************************/
+/***/ "@wordpress/primitives":
+/*!************************************!*\
+  !*** external ["wp","primitives"] ***!
+  \************************************/
 /***/ ((module) => {
 
-module.exports = window["wp"]["i18n"];
+module.exports = window["wp"]["primitives"];
 
 /***/ })
 

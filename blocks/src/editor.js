@@ -1,60 +1,70 @@
 import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { TextControl, Button, PanelBody, PanelRow } from '@wordpress/components';
+import { Button, TextControl, CheckboxControl, PanelBody, PanelRow } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useState, useRef, useEffect } from '@wordpress/element';
+import { keyboardReturn } from '@wordpress/icons';
+import { URLPopover } from '@wordpress/block-editor';
 
 const EditComponent = ({ attributes, setAttributes }) => {
     const blockProps = useBlockProps();
     const { plans } = attributes;
 
-    // Add a new plan dynamically
-    const addNewPlan = () => {
-        const newPlan = {
-            title: 'New Plan',
-            price: '$0',
-            features: ['Feature 1', 'Feature 2'],
-            buttonLabel: 'Sign up',
-        };
-        setAttributes({ plans: [...plans, newPlan] });
+    // URL Popover visibility and URLs state
+    const [popoverVisible, setPopoverVisible] = useState({});
+    const [buttonURLs, setButtonURLs] = useState({});
+    const [openInNewTab, setOpenInNewTab] = useState({}); // To store the open-in-new-tab setting for each plan
+    const popoverRefs = useRef({});
+
+    // Initialize button URLs and open-in-new-tab state from attributes
+    useEffect(() => {
+        const initialButtonURLs = {};
+        const initialOpenInNewTab = {};
+        plans.forEach((_, index) => {
+            initialButtonURLs[index] = attributes[`buttonURL${index + 1}`] || '';
+            initialOpenInNewTab[index] = attributes[`openInNewTab${index + 1}`] || false; // Set initial state for new tab
+        });
+        setButtonURLs(initialButtonURLs);
+        setOpenInNewTab(initialOpenInNewTab);
+    }, [attributes]);
+
+    // Handle URL change
+    const handleURLChange = (index, value) => {
+        setButtonURLs((prev) => ({ ...prev, [index]: value }));
     };
 
-    // Update a specific plan attribute
-    const updatePlan = (index, key, value) => {
-        const updatedPlans = [...plans];
-        updatedPlans[index][key] = value;
-        setAttributes({ plans: updatedPlans });
+    // Handle Open in New Tab change
+    const handleOpenInNewTabChange = (index, value) => {
+        setOpenInNewTab((prev) => ({ ...prev, [index]: value }));
     };
 
-    // Update a specific feature in a plan
-    const updateFeature = (index, featureIndex, value) => {
-        const updatedPlans = [...plans];
-        updatedPlans[index].features[featureIndex] = value;
-        setAttributes({ plans: updatedPlans });
+    // Handle URL submit (save)
+    const handleURLSubmit = (index) => {
+        setAttributes({ [`buttonURL${index + 1}`]: buttonURLs[index], [`openInNewTab${index + 1}`]: openInNewTab[index] });
+        setPopoverVisible((prev) => ({ ...prev, [index]: false }));
     };
 
-    // Add a new feature to a plan
-    const addFeature = (index) => {
-        const updatedPlans = [...plans];
-        updatedPlans[index].features.push('New Feature');
-        setAttributes({ plans: updatedPlans });
+    // Toggle Popover visibility
+    const handleButtonMouseOver = (index) => {
+        setPopoverVisible((prev) => ({ ...prev, [index]: true }));
     };
 
-    // Remove a specific feature
-    const removeFeature = (index, featureIndex) => {
-        const updatedPlans = [...plans];
-        updatedPlans[index].features.splice(featureIndex, 1);
-        setAttributes({ plans: updatedPlans });
+    // Redirect to URL on button click
+    const handleButtonClick = (index) => {
+        const url = buttonURLs[index];
+        if (url) {
+            const target = openInNewTab[index] ? '_blank' : '_self'; // Use target based on user setting
+            window.open(url, target); // Open the URL with the selected target
+        }
     };
 
     return (
         <>
             {/* Inspector Controls */}
             <InspectorControls>
-                <PanelBody title={__('Add New Plan', 'dynamic-pricing-block')} initialOpen={true}>
+                <PanelBody title="Add New Plan" initialOpen={true}>
                     <PanelRow>
-                        <Button isPrimary onClick={addNewPlan}>
-                            {__('Add Another Plan', 'dynamic-pricing-block')}
+                        <Button isPrimary onClick={() => setAttributes({ plans: [...plans, { title: 'New Plan', price: '$0', features: ['Feature 1'], buttonLabel: 'Sign Up' }] })}>
+                            Add Another Plan
                         </Button>
                     </PanelRow>
                 </PanelBody>
@@ -66,69 +76,96 @@ const EditComponent = ({ attributes, setAttributes }) => {
                     <div key={index} className="col">
                         <div className="card mb-4 rounded-3 shadow-sm">
                             <div className="card-header py-3">
-                                {/* Editable Plan Title */}
                                 <RichText
                                     tagName="h4"
                                     value={plan.title}
-                                    placeholder={__('Plan Title', 'dynamic-pricing-block')}
-                                    onChange={(value) => updatePlan(index, 'title', value)}
+                                    placeholder="Plan Title"
+                                    onChange={(value) => setAttributes({ plans: plans.map((p, i) => (i === index ? { ...p, title: value } : p)) })}
                                 />
                             </div>
                             <div className="card-body">
-                                {/* Editable Price */}
                                 <h1 className="card-title pricing-card-title">
                                     <RichText
                                         tagName="span"
                                         value={plan.price}
-                                        placeholder={__('Price', 'dynamic-pricing-block')}
-                                        onChange={(value) => updatePlan(index, 'price', value)}
+                                        placeholder="Price"
+                                        onChange={(value) => setAttributes({ plans: plans.map((p, i) => (i === index ? { ...p, price: value } : p)) })}
                                     />
                                     <small className="text-muted fw-light">/mo</small>
                                 </h1>
 
-                                {/* Editable Feature List */}
                                 <ul className="list-unstyled mt-3 mb-4">
                                     {plan.features.map((feature, featureIndex) => (
-                                        <li key={featureIndex} style={{ display: 'flex', alignItems: 'center' }}>
+                                        <li key={featureIndex}>
                                             <TextControl
                                                 value={feature}
-                                                placeholder={__('Feature', 'dynamic-pricing-block')}
-                                                onChange={(value) =>
-                                                    updateFeature(index, featureIndex, value)
-                                                }
+                                                placeholder="Feature"
+                                                onChange={(value) => setAttributes({ plans: plans.map((p, i) => (i === index ? { ...p, features: p.features.map((f, fi) => (fi === featureIndex ? value : f)) } : p)) })}
                                             />
-                                            <Button
-                                                isSmall
-                                                variant="secondary"
-                                                onClick={() => removeFeature(index, featureIndex)}
-                                            >
-                                                {__('Remove', 'dynamic-pricing-block')}
-                                            </Button>
                                         </li>
                                     ))}
                                 </ul>
-                                <Button variant="link" onClick={() => addFeature(index)}>
-                                    {__('Add Feature', 'dynamic-pricing-block')}
+
+                                <Button variant="link" onClick={() => setAttributes({ plans: plans.map((p, i) => (i === index ? { ...p, features: [...p.features, 'New Feature'] } : p)) })}>
+                                    Add Feature
                                 </Button>
 
                                 {/* Editable Button Text */}
                                 <Button
                                     variant="primary"
                                     className="w-100 btn btn-lg"
-                                //onClick={() => alert(__('Button Clicked!', 'dynamic-pricing-block'))}
+                                    onMouseOver={() => handleButtonMouseOver(index)}
+                                //onClick={() => handleButtonClick(index)} // Button click handler
                                 >
                                     <RichText
                                         tagName="span"
                                         value={plan.buttonLabel}
-                                        placeholder={__('Button Text', 'dynamic-pricing-block')}
-                                        onChange={(value) => updatePlan(index, 'buttonLabel', value)}
+                                        placeholder="Button Text"
+                                        onChange={(value) => setAttributes({ plans: plans.map((p, i) => (i === index ? { ...p, buttonLabel: value } : p)) })}
                                     />
                                 </Button>
+
+                                {/* URL Popover */}
+                                {popoverVisible[index] && (
+                                    <URLPopover
+                                        ref={(el) => (popoverRefs.current[index] = el)}
+                                        onClose={() => setPopoverVisible((prev) => ({ ...prev, [index]: false }))}
+                                        style={{ minWidth: '400px' }} // Increase width of the popover container
+                                    >
+                                        <PanelBody>
+
+                                            <PanelRow>
+                                                <TextControl
+                                                    label="URL"
+                                                    placeholder="Link inside"
+                                                    value={buttonURLs[index] || ""}
+                                                    onChange={(value) => handleURLChange(index, value)}
+                                                    style={{ width: '100%', minWidth: '340px' }} // Ensures the input takes up all available space
+                                                />
+                                            </PanelRow>
+                                            <PanelRow>
+                                                <CheckboxControl
+                                                    label="Open in new tab"
+                                                    checked={openInNewTab[index] || false}
+                                                    onChange={(value) => handleOpenInNewTabChange(index, value)}
+                                                />
+                                                <Button
+                                                    icon={keyboardReturn}
+                                                    label="Save URL"
+                                                    isPrimary
+                                                    onClick={() => handleURLSubmit(index)}
+                                                />
+                                            </PanelRow>
+
+                                        </PanelBody>
+
+                                    </URLPopover>
+                                )}
                             </div>
                         </div>
                     </div>
                 ))}
-            </div>
+            </div >
         </>
     );
 };

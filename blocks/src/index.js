@@ -7,8 +7,8 @@ import './style.scss';
 registerBlockType('dynamic-pricing-block/price-plans', {
     title: 'Dynamic Pricing Block',
     description: 'A custom pricing block with different plans that can dynamically add features.',
+    icon: 'table-col-after',
     category: 'widgets',
-    icon: 'money',
     edit: EditComponent,
     save: SaveComponent,
     attributes: {
@@ -16,14 +16,15 @@ registerBlockType('dynamic-pricing-block/price-plans', {
             type: 'array',
             default: [
                 {
-                    title: 'Free',
+                    title: 'New Plan',
                     price: '$0',
-                    features: ['10 users included', '2 GB of storage', 'Email support', 'Help center access'],
+                    features: ['Feature 1', 'Feature 2'],
                     buttonLabel: 'Sign up for free',
+                    buttonURL: '',
+                    buttonOpenInNewTab: false,
+                    buttonNoFollow: false,
                 },
             ],
         },
     },
-
-
 });
