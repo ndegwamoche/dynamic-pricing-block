@@ -27,11 +27,11 @@ The block includes customizable options for plan titles, pricing, features, and 
 
 ### 1. Editor View
 
-![Editor View](https://your-image-link.com)
+![Editor View](https://raw.githubusercontent.com/ndegwamoche/dynamic-pricing-block/main/dynamic-pricing-block-editor.png)
 
 ### 2. Frontend View
 
-![Frontend View](https://your-image-link.com)
+![Frontend View](https://raw.githubusercontent.com/ndegwamoche/dynamic-pricing-block/main/dynamic-pricing-block-frontview.png)
 
 ----------
 
@@ -207,4 +207,4 @@ This plugin is licensed under the **GPL-2.0-or-later** license. See the [LICENSE
 
 ## **Support**
 
-For issues, suggestions, or feature requests, please open an issue on the [GitHub repository](https://github.com/yourusername/dynamic-pricing-block/issues).
+For issues, suggestions, or feature requests, please open an issue on the [GitHub repository](https://github.com/ndegwamoche/dynamic-pricing-block/issues).
