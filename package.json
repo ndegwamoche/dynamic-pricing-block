@@ -1,0 +1,15 @@
+{
+  "name": "dynamic-pricing-block",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "wp-scripts start blocks/src/index.js",
+    "build": "wp-scripts build blocks/src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@wordpress/scripts": "^30.7.0"
+  }
+}

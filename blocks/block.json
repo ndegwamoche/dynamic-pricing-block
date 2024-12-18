@@ -1,0 +1,20 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "dynamic-pricing-block/price-plans",
+    "title": "Dynamic Pricing Block",
+    "category": "formatting",
+    "icon": "money",
+    "description": "A custom pricing block with different plans that can dynamically add features.",
+    "editorScript": "file:../build/index.js",
+    "style": [
+        "dynamic-pricing-block-bootstrap",
+        "dynamic-pricing-block-style"
+    ],
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ]
+    }
+}
