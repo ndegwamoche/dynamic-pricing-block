@@ -27,7 +27,7 @@ The block includes customizable options for plan titles, pricing, features, and 
 
 ### 1. Editor View
 
-![Editor View](https://your-image-link.com)
+![Editor View](https://raw.githubusercontent.com/ndegwamoche/youtube-video-checker/main/screenshot.png)
 
 ### 2. Frontend View
 
