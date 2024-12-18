@@ -1,0 +1,12 @@
+{
+    "name": "user/dynamic-pricing-block",
+    "authors": [
+        {
+            "name": "ndegwamoche",
+            "email": "ndegwamoche@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*"
+    }
+}

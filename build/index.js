@@ -129,6 +129,31 @@ const EditComponent = ({
       window.open(url, target); // Open the URL with the selected target
     }
   };
+
+  // Delete a plan
+  const deletePlan = index => {
+    const updatedPlans = plans.filter((_, i) => i !== index);
+    setAttributes({
+      plans: updatedPlans
+    });
+  };
+
+  // Delete a feature
+  const deleteFeature = (planIndex, featureIndex) => {
+    const updatedPlans = plans.map((plan, i) => {
+      if (i === planIndex) {
+        const updatedFeatures = plan.features.filter((_, fi) => fi !== featureIndex);
+        return {
+          ...plan,
+          features: updatedFeatures
+        };
+      }
+      return plan;
+    });
+    setAttributes({
+      plans: updatedPlans
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
@@ -156,9 +181,9 @@ const EditComponent = ({
         className: "col",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "card mb-4 rounded-3 shadow-sm",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "card-header py-3",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "card-header py-3 d-flex justify-content-between align-items-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
               tagName: "h4",
               value: plan.title,
               placeholder: "Plan Title",
@@ -168,7 +193,13 @@ const EditComponent = ({
                   title: value
                 } : p)
               })
-            })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+              isDestructive: true,
+              onClick: () => deletePlan(index),
+              icon: "trash",
+              label: "Delete Plan",
+              className: "ms-2"
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "card-body",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h1", {
@@ -189,8 +220,9 @@ const EditComponent = ({
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
               className: "list-unstyled mt-3 mb-4",
-              children: plan.features.map((feature, featureIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+              children: plan.features.map((feature, featureIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+                className: "d-flex justify-content-between align-items-center",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
                   value: feature,
                   placeholder: "Feature",
                   onChange: value => setAttributes({
@@ -199,7 +231,13 @@ const EditComponent = ({
                       features: p.features.map((f, fi) => fi === featureIndex ? value : f)
                     } : p)
                   })
-                })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+                  isDestructive: true,
+                  onClick: () => deleteFeature(index, featureIndex),
+                  icon: "trash",
+                  label: "Delete Feature",
+                  className: "ms-2"
+                })]
               }, featureIndex))
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
               variant: "link",
@@ -213,9 +251,7 @@ const EditComponent = ({
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
               variant: "primary",
               className: "w-100 btn btn-lg",
-              onMouseOver: () => handleButtonMouseOver(index)
-              //onClick={() => handleButtonClick(index)} // Button click handler
-              ,
+              onMouseOver: () => handleButtonMouseOver(index),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
                 tagName: "span",
                 value: plan.buttonLabel,
