@@ -86,11 +86,8 @@ Follow these steps to install the plugin:
 
 The project follows a clean and organized structure for WordPress block development:
 
-plaintext
-
-Copy code
-
-`dynamic-pricing-block/
+```
+dynamic-pricing-block/
 │
 ├── assets/                     # Assets like Bootstrap CSS
 │   └── dist/css/bootstrap.min.css
@@ -111,7 +108,7 @@ Copy code
 ├── package.json                # Dependencies and scripts
 ├── LICENSE                     # License file
 └── README.md                   # Project documentation` 
-
+```
 ----------
 
 ## **Development**
