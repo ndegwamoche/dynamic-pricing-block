@@ -207,4 +207,4 @@ This plugin is licensed under the **GPL-2.0-or-later** license. See the [LICENSE
 
 ## **Support**
 
-For issues, suggestions, or feature requests, please open an issue on the [GitHub repository](https://github.com/yourusername/dynamic-pricing-block/issues).
+For issues, suggestions, or feature requests, please open an issue on the [GitHub repository](https://github.com/ndegwamoche/dynamic-pricing-block/issues).
